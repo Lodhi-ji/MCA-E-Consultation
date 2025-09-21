@@ -1,5 +1,6 @@
 import { Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
+import goiLogo from "@/assets/goi-logo.png";
 
 export const Header = () => {
   return (
@@ -8,8 +9,8 @@ export const Header = () => {
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-4">
-            <div className="w-16 h-16 bg-gov-blue rounded-md flex items-center justify-center">
-              <div className="text-white font-bold text-xs">GOI</div>
+            <div className="w-16 h-16 flex items-center justify-center">
+              <img src={goiLogo} alt="Government of India" className="w-full h-full object-contain" />
             </div>
             <div>
               <h1 className="text-xl font-bold text-gov-blue">MINISTRY OF</h1>
