@@ -8,7 +8,7 @@ import Index from "./pages/Index";
 import EConsultationLanding from "./pages/EConsultationLanding";
 import ConsultationListing from "./pages/ConsultationListing";
 import DocumentDetails from "./pages/DocumentDetails";
-import AuthPage from "./pages/AuthPage";
+import Auth from "./pages/Auth";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -24,7 +24,7 @@ const App = () => (
             <Route path="/" element={<EConsultationLanding />} />
             <Route path="/consultation-listing" element={<ConsultationListing />} />
             <Route path="/document-details" element={<DocumentDetails />} />
-            <Route path="/auth" element={<AuthPage />} />
+            <Route path="/auth" element={<Auth />} />
             <Route path="/demo" element={<Index />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />

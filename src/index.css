@@ -111,4 +111,41 @@ All colors MUST be HSL.
   body {
     @apply bg-background text-foreground;
   }
+
+  /* Government specific utilities */
+  .text-gov-blue {
+    color: hsl(var(--gov-blue));
+  }
+  
+  .text-gov-blue-dark {
+    color: hsl(var(--gov-blue-dark));
+  }
+  
+  .text-gov-orange {
+    color: hsl(var(--gov-orange));
+  }
+  
+  .text-gov-green {
+    color: hsl(var(--gov-green));
+  }
+  
+  .text-gov-red {
+    color: hsl(var(--gov-red));
+  }
+  
+  .bg-gov-blue {
+    background-color: hsl(var(--gov-blue));
+  }
+  
+  .bg-gov-blue-dark {
+    background-color: hsl(var(--gov-blue-dark));
+  }
+  
+  .bg-gov-light-blue {
+    background-color: hsl(var(--gov-light-blue));
+  }
+  
+  .bg-gov-gray {
+    background-color: hsl(var(--gov-gray));
+  }
 }
