@@ -19,7 +19,7 @@ const Auth = () => {
   const { signUp, signIn, verifyOtp } = useAuth();
   const navigate = useNavigate();
 
-  const handleSignUp = async (e: React.FormEvent) => {
+  const handleSignUp = async (e) => {
     e.preventDefault();
     if (!email || !password || !fullName) {
       toast({
@@ -49,7 +49,7 @@ const Auth = () => {
     setLoading(false);
   };
 
-  const handleSignIn = async (e: React.FormEvent) => {
+  const handleSignIn = async (e) => {
     e.preventDefault();
     if (!email || !password) {
       toast({
@@ -79,7 +79,7 @@ const Auth = () => {
     setLoading(false);
   };
 
-  const handleOtpVerification = async (e: React.FormEvent) => {
+  const handleOtpVerification = async (e) => {
     e.preventDefault();
     
     // Use dummy OTP for testing
