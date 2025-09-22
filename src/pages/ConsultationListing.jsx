@@ -1,3 +1,4 @@
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import { Home, Search } from "lucide-react";
 import { Header } from "@/components/layout/Header";
