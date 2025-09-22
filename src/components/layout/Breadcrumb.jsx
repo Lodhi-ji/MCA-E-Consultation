@@ -1,10 +1,6 @@
 import { ChevronRight } from "lucide-react";
 
-interface BreadcrumbProps {
-  items: { label: string; href?: string }[];
-}
-
-export const Breadcrumb = ({ items }: BreadcrumbProps) => {
+export const Breadcrumb = ({ items }) => {
   return (
     <nav className="bg-gov-gray px-4 py-2">
       <div className="container mx-auto">
