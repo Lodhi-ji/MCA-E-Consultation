@@ -6,14 +6,8 @@ import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useToast } from "@/hooks/use-toast";
 
-interface CommentModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  onSuccess: () => void;
-}
-
-export const CommentModal = ({ isOpen, onClose, onSuccess }: CommentModalProps) => {
-  const [step, setStep] = useState<'confirm' | 'details' | 'otp'>('confirm');
+export const CommentModal = ({ isOpen, onClose, onSuccess }) => {
+  const [step, setStep] = useState('confirm');
   const [userType, setUserType] = useState('individual');
   const [formData, setFormData] = useState({
     fullName: '',
