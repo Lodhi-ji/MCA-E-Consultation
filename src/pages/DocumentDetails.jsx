@@ -9,6 +9,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { CommentModal } from "@/components/modals/CommentModal";
 import { useToast } from "@/hooks/use-toast";
+import goiLogo from "@/assets/goi-logo.png";
 
 const DocumentDetails = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -55,6 +56,20 @@ const DocumentDetails = () => {
     }
   };
 
+  const handleDownloadPdf = () => {
+    const link = document.createElement('a');
+    link.href = '/publicnotice.pdf';
+    link.download = 'publicnotice.pdf';
+    link.target = '_blank';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  const handleViewPdfInNewTab = () => {
+    window.open('/publicnotice.pdf', '_blank', 'noopener,noreferrer');
+  };
+
   return (
     <div className="min-h-screen bg-background">
       <Header />
@@ -86,7 +101,7 @@ const DocumentDetails = () => {
                     <Button 
                       variant="outline" 
                       size="sm"
-                      onClick={() => window.open('/publicnotice.pdf', '_blank')}
+                      onClick={handleDownloadPdf}
                     >
                       <Download className="h-4 w-4 mr-2" />
                       Download PDF
@@ -139,7 +154,7 @@ const DocumentDetails = () => {
                           <Button 
                             variant="outline"
                             className="w-full"
-                            onClick={() => window.open('/publicnotice.pdf', '_blank')}
+                            onClick={handleViewPdfInNewTab}
                           >
                             Open in New Tab
                           </Button>
@@ -164,8 +179,8 @@ const DocumentDetails = () => {
                 <div className="bg-gov-light-blue rounded-lg p-6">
                   <div className="text-center mb-6">
                     <div className="flex items-center justify-center mb-4">
-                      <div className="w-16 h-16 bg-gov-blue rounded-md flex items-center justify-center mr-4">
-                        <div className="text-white font-bold text-xs">GOI</div>
+                      <div className="w-16 h-16 flex items-center justify-center mr-4">
+                        <img src={goiLogo} alt="Government of India" className="w-full h-full object-contain" />
                       </div>
                       <div className="text-left">
                         <h3 className="text-lg font-bold text-gov-blue">MINISTRY OF</h3>
