@@ -8,6 +8,7 @@ import { AuthProvider } from "@/contexts/AuthContext";
 import Index from "./pages/Index";
 import EConsultationLanding from "./pages/EConsultationLanding";
 import ConsultationListing from "./pages/ConsultationListing";
+import FilteredConsultation from "./pages/FilteredConsultation";
 import DocumentDetails from "./pages/DocumentDetails";
 import Auth from "./pages/Auth";
 import NotFound from "./pages/NotFound";
@@ -24,6 +25,7 @@ const App = () => (
           <Routes>
             <Route path="/" element={<EConsultationLanding />} />
             <Route path="/consultation-listing" element={<ConsultationListing />} />
+            <Route path="/filtered-consultation" element={<FilteredConsultation />} />
             <Route path="/document-details" element={<DocumentDetails />} />
             <Route path="/auth" element={<Auth />} />
             <Route path="/demo" element={<Index />} />

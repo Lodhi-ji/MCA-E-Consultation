@@ -13,6 +13,7 @@ import { useToast } from "@/hooks/use-toast";
 const DocumentDetails = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [comment, setComment] = useState("");
+  const [uploadedFile, setUploadedFile] = useState(null);
   const { toast } = useToast();
 
   const breadcrumbItems = [
@@ -39,6 +40,18 @@ const DocumentDetails = () => {
       variant: "default"
     });
     setComment("");
+    setUploadedFile(null);
+  };
+
+  const handleFileUpload = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      setUploadedFile(file);
+      toast({
+        title: "File Uploaded",
+        description: `${file.name} has been uploaded successfully.`
+      });
+    }
   };
 
   return (
@@ -66,15 +79,28 @@ const DocumentDetails = () => {
           <TabsContent value="public-notice" className="mt-6">
             <Card>
               <CardContent className="p-6">
-                <div className="bg-black rounded-lg p-4 min-h-96">
-                  <div className="bg-white rounded p-4 h-full">
-                    <div className="text-center">
-                      <p className="text-sm mb-4">(Randhir Kumar)</p>
-                      <p className="text-sm mb-2">Under Secretary to the Government of India</p>
-                      <p className="text-sm mt-8">To,</p>
-                      <p className="text-sm">The Deputy Director, E-gov for placing the same on the website of</p>
-                      <p className="text-sm">MCA at 'Notices' 'What's New and e-consultation module.</p>
-                    </div>
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="text-lg font-semibold">Public Notice Document</h3>
+                  <div className="flex space-x-2">
+                    <Button variant="outline" size="sm">
+                      <Download className="h-4 w-4 mr-2" />
+                      Download PDF
+                    </Button>
+                    <Button variant="outline" size="sm">
+                      View PDF
+                    </Button>
+                  </div>
+                </div>
+                <div className="bg-gray-100 rounded-lg p-4 min-h-96 flex items-center justify-center">
+                  <div className="text-center">
+                    <div className="text-6xl text-gray-400 mb-4">📄</div>
+                    <h4 className="text-lg font-medium mb-2">Public Notice - MDP Firms</h4>
+                    <p className="text-sm text-gray-600 mb-4">
+                      Official public notice regarding establishment of Indian Multi-Disciplinary Partnership firms
+                    </p>
+                    <Button className="bg-gov-blue hover:bg-gov-blue-dark">
+                      Open Document
+                    </Button>
                   </div>
                 </div>
                 <p className="text-xs text-muted-foreground mt-4">
@@ -119,14 +145,19 @@ const DocumentDetails = () => {
                   
                   <div className="text-left">
                     <h4 className="font-semibold mb-3">Table of Contents</h4>
-                    <ol className="space-y-1 text-sm">
-                      <li className="text-gov-blue hover:underline cursor-pointer">1. Purpose of this document</li>
-                      <li className="text-gov-blue hover:underline cursor-pointer">2. Confidentiality</li>
-                      <li className="text-gov-blue hover:underline cursor-pointer">3. Accessing the E-Consultation Module</li>
-                      <li className="text-gov-blue hover:underline cursor-pointer">4. Accessing the documents for providing consultation comments/suggestions</li>
-                      <li className="text-gov-blue hover:underline cursor-pointer">5. Instructions for submitting a public comment</li>
-                      <li className="text-gov-blue hover:underline cursor-pointer">6. User Profile Information and OTP Verification</li>
-                    </ol>
+                    <ul className="space-y-1 text-sm">
+                      <li className="text-gov-blue hover:underline cursor-pointer">• Purpose of this document</li>
+                      <li className="text-gov-blue hover:underline cursor-pointer">• Confidentiality</li>
+                      <li className="text-gov-blue hover:underline cursor-pointer">• Accessing the E-Consultation Module</li>
+                      <li className="text-gov-blue hover:underline cursor-pointer">• Accessing the documents for providing consultation comments/suggestions</li>
+                      <li className="text-gov-blue hover:underline cursor-pointer">• Instructions for submitting a public comment</li>
+                      <li className="text-gov-blue hover:underline cursor-pointer">• User Profile Information and OTP Verification</li>
+                      <li className="text-gov-blue hover:underline cursor-pointer">• Modifying previously provided comments</li>
+                      <li className="text-gov-blue hover:underline cursor-pointer">• Providing Feedback (optional)</li>
+                      <li className="text-gov-blue hover:underline cursor-pointer">• Other Features</li>
+                      <li className="text-gov-blue hover:underline cursor-pointer">• Tips and Recommendations for successful submission</li>
+                      <li className="text-gov-blue hover:underline cursor-pointer">• Glossary</li>
+                    </ul>
                   </div>
                 </div>
               </CardContent>
@@ -187,10 +218,20 @@ const DocumentDetails = () => {
                         The undersigned is directed to refer to the subject mentioned above and to say that the Government of India is committed to enabling the growth of large Indian firms capable of competing with leading international players by facilitating establishment of Indian Multi-Disciplinary Partnership (MDP) firms. In this context, a Background Note has been prepared to identify the challenges faced by Indian firms and to seek suggestions for necessary amendments to laws, rules, and regulations. These inputs will help strengthen Indian firms to compete not only in the domestic market but also globally.
                       </p>
                       <p className="mb-4">
-                        2. The Ministry of Corporate Affairs is actively working towards amending the relevant Acts, rules, and regulations to support the growth of domestic MDPs and enhance their international competitiveness.
+                        <strong>2.</strong> The Ministry of Corporate Affairs is actively working towards amending the relevant Acts, rules, and regulations to support the growth of domestic MDPs and enhance their international competitiveness.
                       </p>
-                      <p>
-                        3. All stakeholders are requested to review the Background Note and submit their responses on the same latest by 30.09.2025 on 'e-
+                      <p className="mb-4">
+                        <strong>3.</strong> All stakeholders are requested to review the Background Note and submit their responses on the same latest by 30.09.2025 on the "E-Consultation Module" or at the email <a href="mailto:so-pimca@gov.in" className="text-gov-blue underline">so-pimca@gov.in</a>.
+                      </p>
+                      <p className="mb-4">
+                        <strong>4.</strong> This issues with the approval of the Competent Authority.
+                      </p>
+                      <p className="mb-4">
+                        <strong>Encls.:</strong> As above.
+                      </p>
+                      <p className="text-right">
+                        <strong>(Randhir Kumar)</strong><br />
+                        Under Secretary to the Government of India
                       </p>
                     </div>
                   </CardContent>
@@ -207,9 +248,23 @@ const DocumentDetails = () => {
                           <h3 className="text-sm font-semibold">Attach a file to this Document</h3>
                           <Info className="h-4 w-4 ml-1 text-muted-foreground" />
                         </div>
-                        <Button variant="outline" className="w-full">
-                          Choose File
-                        </Button>
+                        <label htmlFor="file-upload" className="w-full">
+                          <Button variant="outline" className="w-full" asChild>
+                            <span>Choose File</span>
+                          </Button>
+                        </label>
+                        <input
+                          id="file-upload"
+                          type="file"
+                          accept=".pdf,.doc,.docx,.png,.jpg,.jpeg"
+                          onChange={handleFileUpload}
+                          className="hidden"
+                        />
+                        {uploadedFile && (
+                          <p className="text-sm text-gov-blue mt-2">
+                            Selected: {uploadedFile.name}
+                          </p>
+                        )}
                         <p className="text-xs text-muted-foreground mt-1">
                           PDF, Word Doc, PNG, JPEG
                         </p>

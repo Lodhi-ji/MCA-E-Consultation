@@ -20,6 +20,14 @@ const EConsultationLanding = () => {
     navigate("/consultation-listing");
   };
 
+  const handleTodayClick = () => {
+    navigate("/filtered-consultation?filter=today&count=0");
+  };
+
+  const handleNext7DaysClick = () => {
+    navigate("/filtered-consultation?filter=next7days&count=0");
+  };
+
   return (
     <div className="min-h-screen bg-background">
       <Header />
@@ -30,11 +38,6 @@ const EConsultationLanding = () => {
           <Home className="h-5 w-5 mr-2" />
           <h1 className="text-2xl font-bold">E-Consultation</h1>
           <div className="ml-auto flex space-x-2">
-            <input 
-              type="text" 
-              placeholder="Search E-Consultation" 
-              className="px-3 py-2 border rounded-md w-64"
-            />
             <input 
               type="text" 
               placeholder="Search E-Consultation" 
@@ -92,11 +95,17 @@ const EConsultationLanding = () => {
               <div>
                 <h3 className="text-lg font-semibold mb-4">Comments due soon</h3>
                 <div className="space-y-3">
-                  <div className="flex items-center justify-between p-3 hover:bg-gray-50 rounded-lg">
+                  <div 
+                    className="flex items-center justify-between p-3 hover:bg-gray-50 rounded-lg cursor-pointer border border-transparent hover:border-gov-blue"
+                    onClick={handleTodayClick}
+                  >
                     <span>Today</span>
                     <BadgeCount count={0} />
                   </div>
-                  <div className="flex items-center justify-between p-3 hover:bg-gray-50 rounded-lg">
+                  <div 
+                    className="flex items-center justify-between p-3 hover:bg-gray-50 rounded-lg cursor-pointer border border-transparent hover:border-gov-blue"
+                    onClick={handleNext7DaysClick}
+                  >
                     <span>Next 7 Days</span>
                     <BadgeCount count={0} />
                   </div>
