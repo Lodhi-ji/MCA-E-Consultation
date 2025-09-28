@@ -23,6 +23,9 @@ const FilteredConsultation = () => {
     switch(filter) {
       case "today": return "Today";
       case "next7days": return "Next 7 Days";
+      case "posted-today": return "Posted Today";
+      case "posted-last7days": return "Posted Last 7 Days";
+      case "posted-earlier": return "Posted Earlier";
       default: return "Filtered Results";
     }
   }

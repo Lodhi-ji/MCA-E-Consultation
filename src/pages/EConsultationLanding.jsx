@@ -28,6 +28,18 @@ const EConsultationLanding = () => {
     navigate("/filtered-consultation?filter=next7days&count=0");
   };
 
+  const handlePostedTodayClick = () => {
+    navigate("/filtered-consultation?filter=posted-today&count=0");
+  };
+
+  const handlePostedLast7DaysClick = () => {
+    navigate("/filtered-consultation?filter=posted-last7days&count=1");
+  };
+
+  const handlePostedEarlierClick = () => {
+    navigate("/filtered-consultation?filter=posted-earlier&count=0");
+  };
+
   return (
     <div className="min-h-screen bg-background">
       <Header />
@@ -123,15 +135,24 @@ const EConsultationLanding = () => {
               <div>
                 <h3 className="text-lg font-semibold mb-4">Posted Recently</h3>
                 <div className="space-y-3">
-                  <div className="flex items-center justify-between p-3 hover:bg-gray-50 rounded-lg">
+                  <div 
+                    className="flex items-center justify-between p-3 hover:bg-gray-50 rounded-lg cursor-pointer border border-transparent hover:border-gov-blue"
+                    onClick={handlePostedTodayClick}
+                  >
                     <span>Today</span>
                     <BadgeCount count={0} />
                   </div>
-                  <div className="flex items-center justify-between p-3 hover:bg-gray-50 rounded-lg">
+                  <div 
+                    className="flex items-center justify-between p-3 hover:bg-gray-50 rounded-lg cursor-pointer border border-transparent hover:border-gov-blue"
+                    onClick={handlePostedLast7DaysClick}
+                  >
                     <span>Last 7 Days</span>
                     <BadgeCount count={1} />
                   </div>
-                  <div className="flex items-center justify-between p-3 hover:bg-gray-50 rounded-lg">
+                  <div 
+                    className="flex items-center justify-between p-3 hover:bg-gray-50 rounded-lg cursor-pointer border border-transparent hover:border-gov-blue"
+                    onClick={handlePostedEarlierClick}
+                  >
                     <span>Earlier</span>
                     <BadgeCount count={0} />
                   </div>
