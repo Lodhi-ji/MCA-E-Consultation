@@ -14,6 +14,7 @@ const DocumentDetails = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [comment, setComment] = useState("");
   const [uploadedFile, setUploadedFile] = useState(null);
+  const [showPdfViewer, setShowPdfViewer] = useState(false);
   const { toast } = useToast();
 
   const breadcrumbItems = [
@@ -82,27 +83,74 @@ const DocumentDetails = () => {
                 <div className="flex items-center justify-between mb-4">
                   <h3 className="text-lg font-semibold">Public Notice Document</h3>
                   <div className="flex space-x-2">
-                    <Button variant="outline" size="sm">
+                    <Button 
+                      variant="outline" 
+                      size="sm"
+                      onClick={() => window.open('/publicnotice.pdf', '_blank')}
+                    >
                       <Download className="h-4 w-4 mr-2" />
                       Download PDF
                     </Button>
-                    <Button variant="outline" size="sm">
-                      View PDF
+                    <Button 
+                      variant="outline" 
+                      size="sm"
+                      onClick={() => setShowPdfViewer(!showPdfViewer)}
+                    >
+                      {showPdfViewer ? 'Hide PDF' : 'View PDF'}
                     </Button>
                   </div>
                 </div>
-                <div className="bg-gray-100 rounded-lg p-4 min-h-96 flex items-center justify-center">
-                  <div className="text-center">
-                    <div className="text-6xl text-gray-400 mb-4">📄</div>
-                    <h4 className="text-lg font-medium mb-2">Public Notice - MDP Firms</h4>
-                    <p className="text-sm text-gray-600 mb-4">
-                      Official public notice regarding establishment of Indian Multi-Disciplinary Partnership firms
-                    </p>
-                    <Button className="bg-gov-blue hover:bg-gov-blue-dark">
-                      Open Document
-                    </Button>
+                {showPdfViewer ? (
+                  <div className="bg-white rounded-lg border min-h-96">
+                    <div className="flex items-center justify-between p-4 border-b">
+                      <h4 className="text-lg font-medium">Public Notice - MDP Firms</h4>
+                      <Button 
+                        variant="outline" 
+                        size="sm"
+                        onClick={() => setShowPdfViewer(false)}
+                      >
+                        Close Viewer
+                      </Button>
+                    </div>
+                    <div className="h-96">
+                      <iframe
+                        src="/publicnotice.pdf"
+                        className="w-full h-full border-0"
+                        title="Public Notice - MDP Firms"
+                      />
+                    </div>
                   </div>
-                </div>
+                ) : (
+                  <div className="bg-gray-100 rounded-lg p-4 min-h-96">
+                    <div className="flex items-center justify-center h-full">
+                      <div className="text-center">
+                        <div className="text-6xl text-gray-400 mb-4">📄</div>
+                        <h4 className="text-lg font-medium mb-2">Public Notice - MDP Firms</h4>
+                        <p className="text-sm text-gray-600 mb-4">
+                          Official public notice regarding establishment of Indian Multi-Disciplinary Partnership firms
+                        </p>
+                        <div className="space-y-2">
+                          <Button 
+                            className="bg-gov-blue hover:bg-gov-blue-dark w-full"
+                            onClick={() => setShowPdfViewer(true)}
+                          >
+                            View Document
+                          </Button>
+                          <Button 
+                            variant="outline"
+                            className="w-full"
+                            onClick={() => window.open('/publicnotice.pdf', '_blank')}
+                          >
+                            Open in New Tab
+                          </Button>
+                          <p className="text-xs text-gray-500">
+                            Click to view the official public notice document
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
                 <p className="text-xs text-muted-foreground mt-4">
                   NOTE: Stakeholders to ensure that relevant comments are provided against their selected Actions. It is mandatory to Save every comment entered for each selected Chapter before submitting an E-Consultation paper.
                 </p>
