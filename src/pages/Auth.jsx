@@ -5,58 +5,72 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { toast } from '@/hooks/use-toast';
-import { Loader2 } from 'lucide-react';
+import { Loader2, Mail, Lock, Shield, Eye, EyeOff } from 'lucide-react';
+import goiLogo from '@/assets/goi-logo.png';
 
 const Auth = () => {
   const [loading, setLoading] = useState(false);
-  const [showOtp, setShowOtp] = useState(false);
+  const [step, setStep] = useState('email'); // 'email', 'password', 'otp'
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [fullName, setFullName] = useState('');
   const [otp, setOtp] = useState('');
-  const { signUp, signIn, verifyOtp } = useAuth();
+  const [showPassword, setShowPassword] = useState(false);
+  const { signIn, verifyOtp } = useAuth();
   const navigate = useNavigate();
 
-  const handleSignUp = async (e) => {
+  // Validate MCA email
+  const validateMcaEmail = (email) => {
+    return email.toLowerCase().endsWith('@mca.gov.in');
+  };
+
+  // Step 1: Email validation
+  const handleEmailSubmit = async (e) => {
     e.preventDefault();
-    if (!email || !password || !fullName) {
+    if (!email) {
       toast({
         title: "Error",
-        description: "Please fill in all fields",
+        description: "Please enter your email address",
         variant: "destructive",
       });
       return;
     }
 
-    setLoading(true);
-    const { error } = await signUp(email, password, fullName);
-    
-    if (error) {
+    if (!validateMcaEmail(email)) {
       toast({
-        title: "Error",
-        description: error.message,
+        title: "Access Denied",
+        description: "Only MCA government officials can access this portal. Please use an @mca.gov.in email address.",
         variant: "destructive",
       });
-    } else {
-      toast({
-        title: "Check your email",
-        description: "We've sent you an OTP code for verification",
-      });
-      setShowOtp(true);
+      return;
     }
-    setLoading(false);
+
+    setStep('password');
+    toast({
+      title: "Email Verified",
+      description: "Please enter your password to continue",
+    });
   };
 
-  const handleSignIn = async (e) => {
+  // Step 2: Password validation
+  const handlePasswordSubmit = async (e) => {
     e.preventDefault();
-    if (!email || !password) {
+    if (!password) {
       toast({
         title: "Error",
-        description: "Please fill in all fields",
+        description: "Please enter your password",
         variant: "destructive",
       });
+      return;
+    }
+
+    // Test credentials for development
+    if (email.toLowerCase() === 'savants@mca.gov.in' && password === 'Syntax@123') {
+      toast({
+        title: "OTP Sent",
+        description: "An OTP has been sent to your email for verification",
+      });
+      setStep('otp');
       return;
     }
 
@@ -65,28 +79,39 @@ const Auth = () => {
     
     if (error) {
       toast({
-        title: "Error",
-        description: error.message,
+        title: "Authentication Failed",
+        description: "Invalid credentials. Please check your password.",
         variant: "destructive",
       });
+      setLoading(false);
     } else {
       toast({
-        title: "Success",
-        description: "Signed in successfully",
+        title: "OTP Sent",
+        description: "An OTP has been sent to your email for verification",
       });
-      navigate('/');
+      setStep('otp');
+      setLoading(false);
     }
-    setLoading(false);
   };
 
+  // Step 3: OTP verification
   const handleOtpVerification = async (e) => {
     e.preventDefault();
     
+    if (!otp) {
+      toast({
+        title: "Error",
+        description: "Please enter the OTP code",
+        variant: "destructive",
+      });
+      return;
+    }
+
     // Use dummy OTP for testing
     if (otp === '123456') {
       toast({
         title: "Success",
-        description: "Account verified successfully!",
+        description: "Admin access granted successfully!",
       });
       navigate('/');
       return;
@@ -97,151 +122,173 @@ const Auth = () => {
     
     if (error) {
       toast({
-        title: "Error",
-        description: error.message,
+        title: "Verification Failed",
+        description: "Invalid OTP. Please try again.",
         variant: "destructive",
       });
     } else {
       toast({
         title: "Success",
-        description: "Account verified successfully!",
+        description: "Admin access granted successfully!",
       });
       navigate('/');
     }
     setLoading(false);
   };
 
-  if (showOtp) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-background px-4">
-        <Card className="w-full max-w-md">
-          <CardHeader className="text-center">
-            <CardTitle className="text-2xl font-bold text-primary">Verify Your Email</CardTitle>
-            <CardDescription>
-              Enter the OTP code sent to {email}
-              <br />
-              <span className="text-xs text-muted-foreground mt-2 block">
-                (Demo: Use 123456 as OTP)
-              </span>
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <form onSubmit={handleOtpVerification} className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="otp">OTP Code</Label>
-                <Input
-                  id="otp"
-                  type="text"
-                  placeholder="Enter 6-digit code"
-                  value={otp}
-                  onChange={(e) => setOtp(e.target.value)}
-                  maxLength={6}
-                  className="text-center text-lg tracking-wider"
-                />
-              </div>
-              <Button type="submit" className="w-full" disabled={loading}>
-                {loading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
-                Verify & Complete Setup
-              </Button>
-              <Button
-                type="button"
-                variant="outline"
-                className="w-full"
-                onClick={() => setShowOtp(false)}
-              >
-                Back to Sign Up
-              </Button>
-            </form>
-          </CardContent>
-        </Card>
-      </div>
-    );
-  }
+  // Reset form
+  const handleReset = () => {
+    setStep('email');
+    setEmail('');
+    setPassword('');
+    setOtp('');
+    setShowPassword(false);
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-background px-4">
-      <Card className="w-full max-w-md">
-        <CardHeader className="text-center">
-          <CardTitle className="text-2xl font-bold text-primary">Welcome</CardTitle>
-          <CardDescription>Sign in to your account or create a new one</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <Tabs defaultValue="signin" className="w-full">
-            <TabsList className="grid w-full grid-cols-2">
-              <TabsTrigger value="signin">Sign In</TabsTrigger>
-              <TabsTrigger value="signup">Sign Up</TabsTrigger>
-            </TabsList>
-            
-            <TabsContent value="signin">
-              <form onSubmit={handleSignIn} className="space-y-4">
+      <div className="w-full max-w-md">
+        {/* GOI Logo */}
+        <div className="text-center mb-8">
+          <div className="w-20 h-20 mx-auto mb-4 flex items-center justify-center">
+            <img src={goiLogo} alt="Government of India" className="w-full h-full object-contain" />
+          </div>
+          <h1 className="text-2xl font-bold text-gray-800 mb-2">Secure Sign In</h1>
+          <p className="text-sm text-gray-600">Enter your official credentials to access the portal</p>
+        </div>
+
+        <Card className="w-full">
+          <CardContent className="p-6">
+            {/* Step 1: Email */}
+            {step === 'email' && (
+              <form onSubmit={handleEmailSubmit} className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="signin-email">Email</Label>
-                  <Input
-                    id="signin-email"
-                    type="email"
-                    placeholder="Enter your email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                  />
+                  <Label htmlFor="email" className="text-sm font-semibold text-gray-700">Email Address</Label>
+                  <div className="relative">
+                    <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+                    <Input
+                      id="email"
+                      type="email"
+                      placeholder="Enter your @mca.gov.in email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      className="pl-10"
+                    />
+                  </div>
+                  <p className="text-xs text-gray-500">
+                    Test email: savants@mca.gov.in
+                  </p>
                 </div>
+                <Button type="submit" className="w-full bg-gov-blue hover:bg-gov-blue-dark">
+                  Continue
+                </Button>
+              </form>
+            )}
+
+            {/* Step 2: Password */}
+            {step === 'password' && (
+              <form onSubmit={handlePasswordSubmit} className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="signin-password">Password</Label>
-                  <Input
-                    id="signin-password"
-                    type="password"
-                    placeholder="Enter your password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                  />
+                  <Label htmlFor="password" className="text-sm font-semibold text-gray-700">Password</Label>
+                  <div className="relative">
+                    <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+                    <Input
+                      id="password"
+                      type={showPassword ? "text" : "password"}
+                      placeholder="Enter your password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      className="pl-10 pr-10"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                      className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                    >
+                      {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                    </button>
+                  </div>
+                  <p className="text-xs text-gray-500">
+                    Test credentials: savants@mca.gov.in / Syntax@123
+                  </p>
                 </div>
-                <Button type="submit" className="w-full" disabled={loading}>
+                <Button type="submit" className="w-full bg-gov-blue hover:bg-gov-blue-dark" disabled={loading}>
                   {loading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
                   Sign In
                 </Button>
-              </form>
-            </TabsContent>
-            
-            <TabsContent value="signup">
-              <form onSubmit={handleSignUp} className="space-y-4">
-                <div className="space-y-2">
-                  <Label htmlFor="signup-name">Full Name</Label>
-                  <Input
-                    id="signup-name"
-                    type="text"
-                    placeholder="Enter your full name"
-                    value={fullName}
-                    onChange={(e) => setFullName(e.target.value)}
-                  />
+                <div className="text-center">
+                  <a href="#" className="text-sm text-gov-blue hover:underline">Forgot Password?</a>
                 </div>
-                <div className="space-y-2">
-                  <Label htmlFor="signup-email">Email</Label>
-                  <Input
-                    id="signup-email"
-                    type="email"
-                    placeholder="Enter your email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="signup-password">Password</Label>
-                  <Input
-                    id="signup-password"
-                    type="password"
-                    placeholder="Create a password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                  />
-                </div>
-                <Button type="submit" className="w-full" disabled={loading}>
-                  {loading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
-                  Sign Up
+                <Button
+                  type="button"
+                  variant="outline"
+                  className="w-full"
+                  onClick={handleReset}
+                >
+                  Back to Email
                 </Button>
               </form>
-            </TabsContent>
-          </Tabs>
-        </CardContent>
-      </Card>
+            )}
+
+            {/* Step 3: OTP */}
+            {step === 'otp' && (
+              <form onSubmit={handleOtpVerification} className="space-y-4">
+                <div className="text-center mb-4">
+                  <Shield className="h-12 w-12 mx-auto text-gov-blue mb-2" />
+                  <h3 className="text-lg font-semibold text-gray-800">OTP Verification</h3>
+                  <p className="text-sm text-gray-600 mt-1">
+                    An OTP has been sent to <br />
+                    <span className="font-medium">{email}</span>
+                  </p>
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="otp" className="text-sm font-semibold text-gray-700">Enter OTP</Label>
+                  <Input
+                    id="otp"
+                    type="text"
+                    placeholder="Enter 6-digit OTP"
+                    value={otp}
+                    onChange={(e) => setOtp(e.target.value)}
+                    maxLength={6}
+                    className="text-center text-lg tracking-wider"
+                  />
+                  <p className="text-xs text-gray-500 text-center">
+                    Demo: Use 123456 as OTP
+                  </p>
+                </div>
+                <Button type="submit" className="w-full bg-gov-blue hover:bg-gov-blue-dark" disabled={loading}>
+                  {loading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
+                  Verify & Sign In
+                </Button>
+                <Button
+                  type="button"
+                  variant="outline"
+                  className="w-full"
+                  onClick={handleReset}
+                >
+                  Back to Email
+                </Button>
+              </form>
+            )}
+          </CardContent>
+        </Card>
+
+        {/* Quick Government Portals */}
+        <div className="mt-8 text-center">
+          <h3 className="text-sm font-semibold text-gray-700 mb-3">Quick Government Portals</h3>
+          <div className="flex flex-wrap justify-center gap-2 text-xs text-gov-blue">
+            <a href="#" className="hover:underline">PMO India</a>
+            <span className="text-gray-400">|</span>
+            <a href="#" className="hover:underline">Ministry of Corporate Affairs</a>
+            <span className="text-gray-400">|</span>
+            <a href="#" className="hover:underline">President of India</a>
+            <span className="text-gray-400">|</span>
+            <a href="#" className="hover:underline">MyGov</a>
+            <span className="text-gray-400">|</span>
+            <a href="#" className="hover:underline">Public Grievance Portal</a>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

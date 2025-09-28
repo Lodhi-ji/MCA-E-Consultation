@@ -240,33 +240,37 @@ const DocumentDetails = () => {
             </div>
 
             {/* Document Metadata */}
-            <Card className="mb-6">
+            <Card className="mb-6 border-2 border-gray-200">
               <CardContent className="p-6">
-                <div className="grid grid-cols-6 gap-4 text-sm">
-                  <div>
-                    <label className="font-semibold text-muted-foreground">Document ID</label>
-                    <p>J34I_D</p>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  <div className="bg-gray-50 p-4 rounded-lg">
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">Document ID</label>
+                    <p className="text-lg font-medium text-gray-900">J34I_D</p>
                   </div>
-                  <div>
-                    <label className="font-semibold text-muted-foreground">Type of Documents</label>
-                    <p>Report</p>
+                  <div className="bg-gray-50 p-4 rounded-lg">
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">Type of Documents</label>
+                    <p className="text-lg font-medium text-gray-900">Report</p>
                   </div>
-                  <div>
-                    <label className="font-semibold text-muted-foreground">Document Name</label>
-                    <p>Establishment of Indian Multi-Disciplinary P...</p>
+                  <div className="bg-gray-50 p-4 rounded-lg">
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">Name of Act</label>
+                    <p className="text-lg font-medium text-gray-900">Not Applicable</p>
                   </div>
-                  <div>
-                    <label className="font-semibold text-muted-foreground">Name of Act</label>
-                    <p>Not Applicable</p>
+                  <div className="bg-gray-50 p-4 rounded-lg">
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">Posted On</label>
+                    <p className="text-lg font-medium text-gray-900">17 September 2025</p>
                   </div>
-                  <div>
-                    <label className="font-semibold text-muted-foreground">Posted On</label>
-                    <p>17 September 2025</p>
+                  <div className="bg-gray-50 p-4 rounded-lg">
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">Comments due date</label>
+                    <p className="text-lg font-medium text-gray-900">30 September 2025</p>
                   </div>
-                  <div>
-                    <label className="font-semibold text-muted-foreground">Comments due date</label>
-                    <p>30 September 2025</p>
-                  </div>
+                </div>
+                
+                {/* Document Name - Full Width */}
+                <div className="mt-6 bg-gray-50 p-4 rounded-lg">
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">Document Name</label>
+                  <p className="text-lg font-medium text-gray-900 leading-relaxed">
+                    Establishment of Indian Multi-Disciplinary Partnership (MDP) firms by the Govt of India
+                  </p>
                 </div>
               </CardContent>
             </Card>
