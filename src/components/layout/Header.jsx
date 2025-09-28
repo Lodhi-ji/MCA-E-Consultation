@@ -100,48 +100,12 @@ export const Header = () => {
               </a>
             </li>
             <li>
-              <a href="#" className="block px-4 py-3 text-white hover:bg-gov-blue text-sm">
-                About MCA
+              <a href="/consultation-listing" className="block px-4 py-3 text-white hover:bg-gov-blue text-sm">
+                Consultation Listing
               </a>
             </li>
-            <li>
-              <a href="#" className="block px-4 py-3 text-white hover:bg-gov-blue text-sm">
-                Acts & Rules
-              </a>
-            </li>
-            <li>
-              <a href="#" className="block px-4 py-3 text-white hover:bg-gov-blue text-sm">
-                My Workspace
-              </a>
-            </li>
-            <li>
-              <a href="#" className="block px-4 py-3 text-white hover:bg-gov-blue text-sm">
-                My Application
-              </a>
-            </li>
-            <li>
-              <a href="#" className="block px-4 py-3 text-white hover:bg-gov-blue text-sm">
-                MCA Services
-              </a>
-            </li>
-            <li>
-              <a href="#" className="block px-4 py-3 text-white bg-gov-blue text-sm font-medium">
-                Additional Services
-              </a>
-            </li>
-            <li>
-              <a href="#" className="block px-4 py-3 text-white hover:bg-gov-blue text-sm">
-                Data & Reports
-              </a>
-            </li>
-            <li>
-              <a href="#" className="block px-4 py-3 text-white hover:bg-gov-blue text-sm">
-                Help & FAQs
-              </a>
-            </li>
-            <li>
-              <a href="#" className="block px-4 py-3 text-white hover:bg-gov-blue text-sm">
-                Contact Us
+              <a href="https://ishaan145.github.io/Saaransh/" className="block px-4 py-3 text-white hover:bg-gov-blue text-sm">
+                Saaransh
               </a>
             </li>
           </ul>
