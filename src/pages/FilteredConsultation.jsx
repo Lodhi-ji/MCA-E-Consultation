@@ -19,6 +19,34 @@ const FilteredConsultation = () => {
     { label: getFilterTitle(filter) }
   ];
 
+  const documents = [
+    {
+      id: "J34I_D",
+      title: "Establishment of Indian Multi-Disciplinary Partnership (MDP) firms by the Govt of India",
+      postedOn: "2025-09-17",
+      commentsDue: "2025-09-30",
+      type: "Report",
+      bucket: "posted-earlier", // posted-today | posted-last7days | posted-earlier
+    },
+  ];
+
+  function filterDocuments(items, filter) {
+    switch (filter) {
+      case "posted-today":
+        return items.filter((d) => d.bucket === "posted-today");
+      case "posted-last7days":
+        return items.filter((d) => d.bucket === "posted-last7days");
+      case "posted-earlier":
+        return items.filter((d) => d.bucket === "posted-earlier");
+      case "today":
+      case "next7days":
+      default:
+        return items;
+    }
+  }
+
+  const filtered = filterDocuments(documents, filter);
+
   function getFilterTitle(filter) {
     switch(filter) {
       case "today": return "Today";
@@ -61,7 +89,7 @@ const FilteredConsultation = () => {
           <CardContent className="p-6">
             <h2 className="text-xl font-bold mb-6">Documents for {getFilterTitle(filter)}</h2>
             
-            {count === 0 ? (
+            {filtered.length === 0 ? (
               <div className="text-center py-12">
                 <div className="text-gray-500 mb-4">
                   <svg className="mx-auto h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -73,28 +101,30 @@ const FilteredConsultation = () => {
               </div>
             ) : (
               <div className="space-y-4">
-                {/* This would be populated with actual documents if count > 0 */}
-                <Card>
-                  <CardContent className="p-4">
-                    <div className="flex justify-between items-start">
-                      <div className="flex-1">
-                        <h3 className="font-semibold text-lg mb-2">
-                          Establishment of Indian Multi-Disciplinary Partnership (MDP) firms by the Govt of India
-                        </h3>
-                        <div className="text-sm text-muted-foreground space-y-1">
-                          <p>Posted On: 17 September 2025</p>
-                          <p>Comments due date: 30 September 2025</p>
+                {filtered.map((doc) => (
+                  <Card key={doc.id}>
+                    <CardContent className="p-4">
+                      <div className="flex justify-between items-start">
+                        <div className="flex-1">
+                          <div className="mb-1">
+                            <span className="inline-block bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded">{doc.type}</span>
+                          </div>
+                          <h3 className="font-semibold text-lg mb-2">{doc.title}</h3>
+                          <div className="text-sm text-muted-foreground space-y-1">
+                            <p>Posted On: {new Date(doc.postedOn).toLocaleDateString("en-GB", { day: '2-digit', month: 'long', year: 'numeric' })}</p>
+                            <p>Comments due date: {new Date(doc.commentsDue).toLocaleDateString("en-GB", { day: '2-digit', month: 'long', year: 'numeric' })}</p>
+                          </div>
                         </div>
+                        <Button 
+                          onClick={handleCommentClick}
+                          className="bg-gov-blue hover:bg-gov-blue-dark text-white"
+                        >
+                          Comment
+                        </Button>
                       </div>
-                      <Button 
-                        onClick={handleCommentClick}
-                        className="bg-gov-blue hover:bg-gov-blue-dark text-white"
-                      >
-                        Comment
-                      </Button>
-                    </div>
-                  </CardContent>
-                </Card>
+                    </CardContent>
+                  </Card>
+                ))}
               </div>
             )}
           </CardContent>

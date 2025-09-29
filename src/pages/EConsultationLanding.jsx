@@ -33,11 +33,11 @@ const EConsultationLanding = () => {
   };
 
   const handlePostedLast7DaysClick = () => {
-    navigate("/filtered-consultation?filter=posted-last7days&count=1");
+    navigate("/filtered-consultation?filter=posted-last7days&count=0");
   };
 
   const handlePostedEarlierClick = () => {
-    navigate("/filtered-consultation?filter=posted-earlier&count=0");
+    navigate("/filtered-consultation?filter=posted-earlier&count=1");
   };
 
   return (
@@ -147,14 +147,14 @@ const EConsultationLanding = () => {
                     onClick={handlePostedLast7DaysClick}
                   >
                     <span>Last 7 Days</span>
-                    <BadgeCount count={1} />
+                    <BadgeCount count={0} />
                   </div>
                   <div 
                     className="flex items-center justify-between p-3 hover:bg-gray-50 rounded-lg cursor-pointer border border-transparent hover:border-gov-blue"
                     onClick={handlePostedEarlierClick}
                   >
                     <span>Earlier</span>
-                    <BadgeCount count={0} />
+                    <BadgeCount count={1} />
                   </div>
                 </div>
               </div>
