@@ -46,7 +46,7 @@ export const Header = () => {
               />
             </div>
             
-            <Button onClick={() => window.open('https://ishaan145.github.io/Saaransh/', '_blank')} variant="outline">
+            <Button onClick={() => window.open('https://saaransh-one.vercel.app/', '_blank')} variant="outline">
               Sign In / Sign Up
             </Button>
           </div>
